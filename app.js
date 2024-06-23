@@ -1,16 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Import cors module
+const cors = require('cors');
 const sequelize = require('./config/database');
 const destinasiRoutes = require('./routes/destinasi');
+const authRoutes = require('./routes/auth'); // Import auth routes
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
-app.use(cors()); // Mengizinkan akses dari semua domain
+app.use(cors());
 
 app.use('/destinasi', destinasiRoutes);
+app.use('/auth', authRoutes); // Use auth routes
 
 // Endpoint untuk akar URL
 app.get('/', (req, res) => {
