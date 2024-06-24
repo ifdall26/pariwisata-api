@@ -7,6 +7,8 @@ router.post('/', async (req, res) => {
   try {
     const { tanggalCheckin, tanggalCheckout, jumlahTamu, jenisTransportasi, jenisPenginapan, metodePembayaran } = req.body;
 
+    console.log('Received booking data:', req.body); // Tambahkan log untuk memastikan data booking diterima dengan benar di backend
+
     // Simpan data booking ke database
     const booking = await Booking.create({
       tanggalCheckin,
@@ -16,6 +18,8 @@ router.post('/', async (req, res) => {
       jenisPenginapan,
       metodePembayaran,
     });
+
+    console.log('Booking created:', booking); // Tambahkan log untuk memastikan booking berhasil disimpan ke database
 
     res.status(201).json({ message: 'Booking berhasil', booking });
   } catch (error) {
