@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const destinasiRoutes = require('./routes/destinasi');
-const authRoutes = require('./routes/auth'); // Import auth routes
+const authRoutes = require('./routes/auth');
+const bookingRoutes = require('./routes/booking');
 
 const app = express();
 const port = 3000;
@@ -12,7 +13,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/destinasi', destinasiRoutes);
-app.use('/auth', authRoutes); // Use auth routes
+app.use('/auth', authRoutes);
+app.use('/booking', bookingRoutes); // Menambahkan routing untuk booking
 
 // Endpoint untuk akar URL
 app.get('/', (req, res) => {
@@ -24,5 +26,5 @@ sequelize.sync().then(() => {
     console.log(`Server running at http://localhost:${port}`);
   });
 }).catch(err => {
-  console.error('Unable to connect to the database:', err);
+  console.error('Gagal terhubung ke database:', err);
 });
