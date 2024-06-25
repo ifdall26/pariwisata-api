@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Destinasi = require('./destinasi'); // Impor model Destinasi
+const User = require('./user'); // Impor model User
 
 const Booking = sequelize.define('booking', {
   id: {
@@ -31,8 +33,27 @@ const Booking = sequelize.define('booking', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  destinasiId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Destinasi,
+      key: 'id',
+    },
+    allowNull: false,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: User,
+      key: 'id',
+    },
+    allowNull: false,
+  },
 }, {
   timestamps: true,
 });
+
+Booking.belongsTo(Destinasi, { foreignKey: 'destinasiId' });
+Booking.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = Booking;

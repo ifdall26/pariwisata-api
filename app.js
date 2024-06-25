@@ -16,7 +16,6 @@ app.use('/destinasi', destinasiRoutes);
 app.use('/auth', authRoutes);
 app.use('/booking', bookingRoutes);
 
-// Endpoint untuk akar URL
 app.get('/', (req, res) => {
   res.send('Selamat datang di aplikasi pariwisata');
 });
