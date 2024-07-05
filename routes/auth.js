@@ -53,7 +53,13 @@ router.post('/login', async (req, res) => {
     }
 
     console.log('User authenticated successfully:', email); // Debugging line
-    return res.status(200).json({ message: 'Login successful!' });
+    return res.status(200).json({
+      message: 'Login successful!',
+      user: {
+        email: user.email,
+        name: user.nama, // Tambahkan nama pengguna di sini
+      }
+    });
   } catch (error) {
     console.error('Error during login:', error); // Debugging line
     return res.status(500).json({ error: 'Failed to login user' });
