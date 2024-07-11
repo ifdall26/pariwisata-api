@@ -42,4 +42,19 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Endpoint untuk mendapatkan bookings berdasarkan userId
+router.get('/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Dapatkan bookings berdasarkan userId
+    const bookings = await Booking.findAll({ where: { userId } });
+
+    res.status(200).json(bookings);
+  } catch (error) {
+    console.error('Error saat mendapatkan bookings:', error);
+    res.status(500).json({ error: 'Gagal mendapatkan bookings' });
+  }
+});
+
 module.exports = router;

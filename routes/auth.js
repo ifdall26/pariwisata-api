@@ -37,31 +37,28 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  console.log('Login request received:', email, password); // Debugging line
-
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      console.log('User not found:', email); // Debugging line
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      console.log('Password does not match for user:', email); // Debugging line
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    console.log('User authenticated successfully:', email); // Debugging line
+    // Kirim respons dengan userId bersama data pengguna lainnya
     return res.status(200).json({
       message: 'Login successful!',
       user: {
+        id: user.id,
         email: user.email,
-        name: user.nama, // Tambahkan nama pengguna di sini
+        name: user.nama,
       }
     });
   } catch (error) {
-    console.error('Error during login:', error); // Debugging line
+    console.error('Error during login:', error);
     return res.status(500).json({ error: 'Failed to login user' });
   }
 });
