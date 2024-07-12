@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Booking = require('../models/booking');
-const User = require('../models/user'); // Impor model User
+const User = require('../models/user');
 
 // Endpoint untuk membuat booking baru
 router.post('/', async (req, res) => {
@@ -39,6 +39,20 @@ router.post('/', async (req, res) => {
   } catch (error) {
     console.error('Error saat membuat booking:', error);
     res.status(500).json({ error: 'Gagal membuat booking' });
+  }
+});
+
+// Endpoint to get bookings
+router.get('/', async (req, res) => {
+  try {
+    // Retrieve bookings from the database
+    const bookings = await Booking.find(); // Example using Mongoose, adjust as per your ORM or database library
+
+    // Send bookings as JSON response
+    res.status(200).json(bookings);
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+    res.status(500).json({ error: 'Failed to fetch bookings' });
   }
 });
 
