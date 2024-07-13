@@ -57,12 +57,15 @@ const Booking = sequelize.define('booking', {
     },
     allowNull: false,
   },
+  nama_destinasi: { // Tambahkan kolom nama_destinasi
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
   timestamps: true,
 });
 
 Booking.belongsTo(Destinasi, { foreignKey: 'destinasiId' });
 Booking.belongsTo(User, { foreignKey: 'userId' });
-Booking.belongsTo(Destinasi, { foreignKey: 'gambar' });
 
 module.exports = Booking;

@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
       return res.status(404).json({ error: 'User tidak ditemukan' });
     }
 
-    // Ambil data destinasi untuk mendapatkan gambar
+    // Ambil data destinasi untuk mendapatkan gambar dan nama_destinasi
     const destinasi = await Destinasi.findByPk(destinasiId);
     if (!destinasi) {
       return res.status(404).json({ error: 'Destinasi tidak ditemukan' });
@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
       destinasiId,
       userId: user.id,
       gambar: destinasi.gambar, // Gunakan gambar dari destinasi
+      nama_destinasi: destinasi.nama_destinasi, // Gunakan nama_destinasi dari destinasi
     });
 
     console.log('Booking created:', booking);
@@ -66,8 +67,11 @@ router.get('/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
 
-    // Dapatkan bookings berdasarkan userId
-    const bookings = await Booking.findAll({ where: { userId } });
+    // Dapatkan bookings berdasarkan userId dengan informasi destinasi
+    const bookings = await Booking.findAll({
+      where: { userId },
+      include: { model: Destinasi, attributes: ['nama_destinasi'] } // Menyertakan model Destinasi untuk mendapatkan nama_destinasi
+    });
 
     res.status(200).json(bookings);
   } catch (error) {
@@ -75,5 +79,6 @@ router.get('/:userId', async (req, res) => {
     res.status(500).json({ error: 'Gagal mendapatkan bookings' });
   }
 });
+
 
 module.exports = router;
