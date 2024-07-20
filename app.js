@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const sequelize = require('./config/database');
 const destinasiRoutes = require('./routes/destinasi');
 const authRoutes = require('./routes/auth');
@@ -7,6 +8,11 @@ const bookingRoutes = require('./routes/booking');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Tambahkan middleware cors sebelum rute lainnya
+app.use(cors({
+  origin: 'https://pik-nik-jnh7-bm6ruwm2v-ifdall26s-projects.vercel.app'
+}));
 
 app.use(bodyParser.json());
 app.use('/destinasi', destinasiRoutes);
