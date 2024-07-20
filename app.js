@@ -1,16 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const morgan = require('morgan');
 const sequelize = require('./config/database');
 const destinasiRoutes = require('./routes/destinasi');
 const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/booking');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://pik-nik-jnh7.vercel.app/', // Sesuaikan dengan domain frontend kamu
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.use(morgan('dev')); // Middleware logging
 
 app.use('/destinasi', destinasiRoutes);
 app.use('/auth', authRoutes);
@@ -20,10 +26,16 @@ app.get('/', (req, res) => {
   res.send('Selamat datang di aplikasi pariwisata');
 });
 
-sequelize.sync().then(() => {
+sequelize.sync({ alter: true }).then(() => {
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
 }).catch(err => {
   console.error('Unable to connect to the database:', err);
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });
