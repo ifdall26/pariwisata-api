@@ -11,13 +11,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(cors({
-  origin: 'https://pik-nik-jnh7.vercel.app/', // Sesuaikan dengan domain frontend kamu
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 app.use(morgan('dev')); // Middleware logging
-
 app.use('/destinasi', destinasiRoutes);
 app.use('/auth', authRoutes);
 app.use('/booking', bookingRoutes);
