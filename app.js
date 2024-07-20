@@ -9,9 +9,21 @@ const bookingRoutes = require('./routes/booking');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Tambahkan middleware cors sebelum rute lainnya
+// Middleware CORS untuk mengizinkan beberapa origin
+const allowedOrigins = [
+  'https://pik-nik-jnh7-bm6ruwm2v-ifdall26s-projects.vercel.app',
+  'https://pik-nik-jnh7-e6litw9q6-ifdall26s-projects.vercel.app'
+];
+
 app.use(cors({
-  origin: 'https://pik-nik-jnh7-bm6ruwm2v-ifdall26s-projects.vercel.app'
+  origin: (origin, callback) => {
+    // Jika origin tidak ada atau origin diizinkan, lanjutkan
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
 }));
 
 app.use(bodyParser.json());
