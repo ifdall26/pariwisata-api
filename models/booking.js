@@ -51,10 +51,6 @@ const Booking = sequelize.define('booking', {
   },
   gambar: {
     type: DataTypes.STRING,
-    references: {
-      model: Destinasi,
-      key: 'gambar',
-    },
     allowNull: false,
   },
   nama_destinasi: { // Tambahkan kolom nama_destinasi
