@@ -9,7 +9,8 @@ const Destinasi = sequelize.define('Destinasi', {
   },
   gambar: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true // Menambahkan constraint UNIQUE
   },
   nama_destinasi: {
     type: DataTypes.STRING,
